@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication - Nutrifit</title>
+    <meta name="description" content="Access your Nutrifit PCOS wellness dashboard.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="container navbar">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <a href="index.html" class="logo">
+                    <i class="fa-solid fa-leaf"></i> Nutri<span>fit</span>
+                </a>
+            </div>
+            
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="dashboard.html">Recommendations</a></li>
+                    <li><a href="calendar.html">Cycle Calendar</a></li>
+                    <li><a href="experts.html">Connect Expert</a></li>
+                    <li><a href="wellness.html">Wellness Vault</a></li>
+                </ul>
+            </nav>
+            
+            <div class="nav-actions" id="nav-actions-container">
+                <a href="onboarding.html" id="profile-gear-icon" class="btn btn-outline btn-icon" title="Edit Profile (Name, Age, Weight, Height)" style="width: 38px; height: 38px; border-radius: 50%; display: none; align-items: center; justify-content: center; background-color: var(--accent-light); border-color: var(--border); padding: 0; margin-right: 8px;">
+                    <i class="fa-solid fa-user-gear" style="color: var(--primary-dark); font-size: 15px;"></i>
+                </a>
+                <span id="nav-user-greeting" style="font-size: 14px; font-weight: 500; color: var(--text-muted); display: none; margin-right: 12px;">Hello, <span class="user-name-display">Guest</span></span>
+                <a href="login.html" id="btn-login-nav" class="btn btn-outline active" style="padding: 8px 16px; font-size: 13px;">Log In</a>
+                <a href="login.html" id="btn-join-nav" class="btn btn-primary" style="padding: 8px 16px; font-size: 13px;">Join Nutrifit</a>
+                <a href="#" id="btn-logout-nav" onclick="logoutUser(event)" class="btn btn-outline" style="padding: 8px 16px; font-size: 13px; display: none;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content wrapper -->
+    <main style="padding: 40px 0;">
+        <div class="container">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <i class="fa-solid fa-leaf" style="font-size: 36px; color: var(--primary); margin-bottom: 12px;"></i>
+                    <h2 id="auth-title">Welcome Back</h2>
+                    <p id="auth-subtitle" style="color: var(--text-muted); font-size: 14px;">
+                        Please enter your credentials to access your dashboard.
+                    </p>
+                </div>
+                
+                <form id="authForm" onsubmit="handleAuthSubmit(event)">
+                    <div class="form-group" id="name-group" style="display: none;">
+                        <label for="name">Your Full Name</label>
+                        <input type="text" id="name" name="name" class="form-control" placeholder="Jiya">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" class="form-control" placeholder="jiya123" required>
+                    </div>
+                    
+                    <div class="form-group" style="margin-bottom: 28px;">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required>
+                    </div>
+                    
+                    <button type="submit" id="btn-submit-auth" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 16px; margin-bottom: 12px;">
+                        Log In
+                    </button>
+                    
+                    <button type="button" onclick="loginAsGuest()" class="btn btn-secondary" style="width: 100%; padding: 12px; font-size: 16px;">
+                        Quick Access as Guest (Jiya)
+                    </button>
+                </form>
+                
+                <div style="text-align: center; margin-top: 24px; font-size: 14px; color: var(--text-muted);">
+                    <span id="auth-switch-text">Don't have an account?</span> 
+                    <a href="#" id="auth-switch-link" onclick="toggleAuthMode(event)" style="font-weight: 600; color: var(--primary);">Register here</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-logo">
+                <i class="fa-solid fa-leaf"></i> Nutrifit
+            </div>
+            <p style="margin-bottom: 8px;">A holistic, science-backed approach to PCOS and PCOD wellness through cycle synchronization, nourishing recipes, and professional care.</p>
+            <p style="font-size: 12px; opacity: 0.7;">&copy; 2025 Nutrifit. All rights reserved. Built by Ria Chawak.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="static/js/main.js"></script>
+    <script>
+        let isRegisterMode = false;
+
+        function toggleAuthMode(event) {
+            if (event) event.preventDefault();
+            isRegisterMode = !isRegisterMode;
+            
+            const title = document.getElementById("auth-title");
+            const subtitle = document.getElementById("auth-subtitle");
+            const nameGroup = document.getElementById("name-group");
+            const submitBtn = document.getElementById("btn-submit-auth");
+            const switchText = document.getElementById("auth-switch-text");
+            const switchLink = document.getElementById("auth-switch-link");
+            
+            const nameInput = document.getElementById("name");
+            
+            if (isRegisterMode) {
+                title.innerText = "Create Your Account";
+                subtitle.innerText = "Join us to start tracking and nourishing your hormones.";
+                nameGroup.style.display = "block";
+                nameInput.required = true;
+                submitBtn.innerText = "Sign Up";
+                switchText.innerText = "Already have an account?";
+                switchLink.innerText = "Login here";
+            } else {
+                title.innerText = "Welcome Back";
+                subtitle.innerText = "Please enter your credentials to access your dashboard.";
+                nameGroup.style.display = "none";
+                nameInput.required = false;
+                submitBtn.innerText = "Log In";
+                switchText.innerText = "Don't have an account?";
+                switchLink.innerText = "Register here";
+            }
+        }
+
+        function handleAuthSubmit(event) {
+            event.preventDefault();
+            const usernameVal = document.getElementById("username").value;
+            const passwordVal = document.getElementById("password").value;
+            const nameVal = isRegisterMode ? document.getElementById("name").value : "Jiya";
+            
+            // Build temporary/new profile values
+            const user = {
+                username: usernameVal,
+                name: nameVal,
+                age: 26,
+                height: 162.0,
+                weight: 62.0,
+                diet_preference: 'veg',
+                lifestyle: 'moderate',
+                exercise_type: 'yoga',
+                exercise_time: 30,
+                cycle_days: 28,
+                period_days: 5,
+                last_period_date: new Date(Date.now() - 12 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+            };
+            
+            localStorage.setItem('nutrifit_user', JSON.stringify(user));
+            showFlashNotification(isRegisterMode ? "Account registered! Let's set up your profile." : "Logged in successfully!", "success");
+            
+            setTimeout(() => {
+                window.location.href = isRegisterMode ? "onboarding.html" : "dashboard.html";
+            }, 800);
+        }
+
+        function loginAsGuest() {
+            // Re-save guest user in localStorage
+            localStorage.setItem('nutrifit_user', JSON.stringify(defaultUser));
+            showFlashNotification("Welcome back, Jiya!", "success");
+            
+            setTimeout(() => {
+                window.location.href = "dashboard.html";
+            }, 800);
+        }
+    </script>
+</body>
+</html>

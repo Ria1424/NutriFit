@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCOS Wellness Vault & Recipes - Nutrifit</title>
+    <meta name="description" content="Discover specialized recipes, hormonal health calculators, and clinical guides.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="container navbar">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <a href="index.html" class="logo">
+                    <i class="fa-solid fa-leaf"></i> Nutri<span>fit</span>
+                </a>
+            </div>
+            
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="dashboard.html">Recommendations</a></li>
+                    <li><a href="calendar.html">Cycle Calendar</a></li>
+                    <li><a href="experts.html">Connect Expert</a></li>
+                    <li><a href="wellness.html" class="active">Wellness Vault</a></li>
+                </ul>
+            </nav>
+            
+            <div class="nav-actions" id="nav-actions-container">
+                <a href="onboarding.html" id="profile-gear-icon" class="btn btn-outline btn-icon" title="Edit Profile (Name, Age, Weight, Height)" style="width: 38px; height: 38px; border-radius: 50%; display: none; align-items: center; justify-content: center; background-color: var(--accent-light); border-color: var(--border); padding: 0; margin-right: 8px;">
+                    <i class="fa-solid fa-user-gear" style="color: var(--primary-dark); font-size: 15px;"></i>
+                </a>
+                <span id="nav-user-greeting" style="font-size: 14px; font-weight: 500; color: var(--text-muted); display: none; margin-right: 12px;">Hello, <span class="user-name-display">Guest</span></span>
+                <a href="login.html" id="btn-login-nav" class="btn btn-outline" style="padding: 8px 16px; font-size: 13px;">Log In</a>
+                <a href="login.html" id="btn-join-nav" class="btn btn-primary" style="padding: 8px 16px; font-size: 13px;">Join Nutrifit</a>
+                <a href="#" id="btn-logout-nav" onclick="logoutUser(event)" class="btn btn-outline" style="padding: 8px 16px; font-size: 13px; display: none;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content wrapper -->
+    <main style="padding: 40px 0;">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <div>
+                    <h1 style="font-size: 32px; margin-bottom: 4px;">PCOS Wellness Vault</h1>
+                    <p style="color: var(--text-muted); font-size: 15px;">Discover specialized recipes, hormonal health calculators, and clinical guides.</p>
+                </div>
+            </div>
+            
+            <!-- Tabs for Recipes, Calculators, Articles -->
+            <div style="display: flex; border-bottom: 2px solid var(--border); margin-bottom: 32px; gap: 16px;">
+                <button class="btn btn-outline active-tab-btn" id="btn-tab-recipes" onclick="switchWellnessTab('recipes')" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-bottom: none; background-color: var(--card-bg);">
+                    <i class="fa-solid fa-utensils"></i> PCOS-Friendly Recipes
+                </button>
+                <button class="btn btn-outline" id="btn-tab-calculators" onclick="switchWellnessTab('calculators')" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-bottom: none;">
+                    <i class="fa-solid fa-calculator"></i> Health Calculators
+                </button>
+                <button class="btn btn-outline" id="btn-tab-guides" onclick="switchWellnessTab('guides')" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-bottom: none;">
+                    <i class="fa-solid fa-book-open"></i> Clinical Education
+                </button>
+            </div>
+            
+            <!-- SECTION 1: RECIPES -->
+            <div id="tab-content-recipes" class="wellness-tab-content">
+                <div style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 32px; background-color: var(--bg-secondary); padding: 20px; border-radius: var(--radius); border: 1px solid var(--border);">
+                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 12px;">
+                        <h3 style="font-size: 20px; color: var(--primary-dark); margin: 0;"><i class="fa-solid fa-seedling"></i> Nutrient-Dense PCOS Meal Library</h3>
+                        <span style="font-size: 13px; color: var(--text-muted); font-weight: 500;">High-Iron & Low-GI focus</span>
+                    </div>
+                    
+                    <!-- Filter Row 1: Course Category -->
+                    <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font-size: 13px;">
+                        <strong style="width: 100px; color: var(--text-main);">Course:</strong>
+                        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                            <button class="btn btn-outline btn-sm active" id="btn-cat-all" onclick="setFilter('category', 'all')" style="padding: 4px 12px; font-size: 11px; border-radius: 20px;">All Courses</button>
+                            <button class="btn btn-outline btn-sm" id="btn-cat-Breakfast" onclick="setFilter('category', 'Breakfast')" style="padding: 4px 12px; font-size: 11px; border-radius: 20px;">Breakfast</button>
+                            <button class="btn btn-outline btn-sm" id="btn-cat-Lunch" onclick="setFilter('category', 'Lunch')" style="padding: 4px 12px; font-size: 11px; border-radius: 20px;">Lunch</button>
+                            <button class="btn btn-outline btn-sm" id="btn-cat-Dinner" onclick="setFilter('category', 'Dinner')" style="padding: 4px 12px; font-size: 11px; border-radius: 20px;">Dinner</button>
+                            <button class="btn btn-outline btn-sm" id="btn-cat-Snack" onclick="setFilter('category', 'Snack')" style="padding: 4px 12px; font-size: 11px; border-radius: 20px;">Snacks</button>
+                        </div>
+                    </div>
+            
+                    <!-- Filter Row 2: Diet Type -->
+                    <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font-size: 13px;">
+                        <strong style="width: 100px; color: var(--text-main);">Diet Style:</strong>
+                        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                            <button class="btn btn-outline btn-sm active" id="btn-diet-all" onclick="setFilter('diet', 'all')" style="padding: 4px 12px; font-size: 11px; border-radius: 20px;">All Diets</button>
+                            <button class="btn btn-outline btn-sm" id="btn-diet-veg" onclick="setFilter('diet', 'veg')" style="padding: 4px 12px; font-size: 11px; border-radius: 20px;">Vegetarian</button>
+                            <button class="btn btn-outline btn-sm" id="btn-diet-non-veg" onclick="setFilter('diet', 'non-veg')" style="padding: 4px 12px; font-size: 11px; border-radius: 20px;">Non-Vegetarian</button>
+                        </div>
+                    </div>
+            
+                    <!-- Filter Row 3: Cuisine -->
+                    <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font-size: 13px;">
+                        <strong style="width: 100px; color: var(--text-main);">Cuisine:</strong>
+                        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                            <button class="btn btn-outline btn-sm active" id="btn-cuis-all" onclick="setFilter('cuisine', 'all')" style="padding: 4px 12px; font-size: 11px; border-radius: 20px;">All Cuisines</button>
+                            <button class="btn btn-outline btn-sm" id="btn-cuis-Indian" onclick="setFilter('cuisine', 'Indian')" style="padding: 4px 12px; font-size: 11px; border-radius: 20px;">Indian</button>
+                            <button class="btn btn-outline btn-sm" id="btn-cuis-Italian" onclick="setFilter('cuisine', 'Italian')" style="padding: 4px 12px; font-size: 11px; border-radius: 20px;">Italian</button>
+                            <button class="btn btn-outline btn-sm" id="btn-cuis-MexicanBowls" onclick="setFilter('cuisine', 'Mexican Bowls')" style="padding: 4px 12px; font-size: 11px; border-radius: 20px;">Mexican Bowls</button>
+                            <button class="btn btn-outline btn-sm" id="btn-cuis-General" onclick="setFilter('cuisine', 'General')" style="padding: 4px 12px; font-size: 11px; border-radius: 20px;">General</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid-3" id="recipes-list-grid">
+                    <!-- Populated dynamically by main.js -->
+                </div>
+            </div>
+            
+            <!-- SECTION 2: HEALTH CALCULATORS -->
+            <div id="tab-content-calculators" class="wellness-tab-content" style="display: none;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">
+                    <!-- Waist to Hip Ratio Calculator -->
+                    <div class="card" style="padding: 28px;">
+                        <h3 style="margin-bottom: 8px;"><i class="fa-solid fa-ruler-horizontal" style="color: var(--secondary);"></i> Waist-to-Hip Ratio Calculator</h3>
+                        <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">For women with PCOS, abdominal fat distribution is a key clinical indicator of insulin resistance risk. A WHR greater than 0.85 points to a higher risk.</p>
+                        
+                        <form id="whrForm" onsubmit="calculateWHR(event)">
+                            <div class="form-group">
+                                <label for="whr-waist">Waist Circumference (cm)</label>
+                                <input type="number" step="0.1" id="whr-waist" class="form-control" placeholder="80" required>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 24px;">
+                                <label for="whr-hip">Hip Circumference (cm)</label>
+                                <input type="number" step="0.1" id="whr-hip" class="form-control" placeholder="95" required>
+                            </div>
+                            <button type="submit" class="btn btn-secondary" style="width: 100%;">Calculate WHR</button>
+                        </form>
+                        
+                        <div id="whr-result-box" style="margin-top: 24px; padding: 16px; border-radius: var(--radius-sm); display: none;">
+                            <h4 style="font-size: 15px; margin-bottom: 4px;">Your WHR: <span id="whr-value" style="font-weight: 700;">0.84</span></h4>
+                            <p id="whr-status" style="font-size: 13px; font-weight: 500;"></p>
+                            <p id="whr-advice" style="font-size: 12px; color: var(--text-muted); margin-top: 8px;"></p>
+                        </div>
+                    </div>
+            
+                    <!-- BMI Calculator & Info -->
+                    <div class="card" style="padding: 28px;">
+                        <h3 style="margin-bottom: 8px;"><i class="fa-solid fa-weight-scale" style="color: var(--primary);"></i> BMI & BMR Quick Checker</h3>
+                        <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Find out your Body Mass Index (BMI) and calculate your estimated Basal Metabolic Rate (BMR).</p>
+                        
+                        <form id="bmiForm" onsubmit="calculateBMI(event)">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="bmi-weight">Weight (kg)</label>
+                                    <input type="number" step="0.1" id="bmi-weight" class="form-control" placeholder="62" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bmi-height">Height (cm)</label>
+                                    <input type="number" step="0.1" id="bmi-height" class="form-control" placeholder="162" required>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 24px;">
+                                <label for="bmi-age">Age (years)</label>
+                                <input type="number" id="bmi-age" class="form-control" placeholder="26" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">Calculate Health Index</button>
+                        </form>
+                        
+                        <div id="bmi-result-box" style="margin-top: 24px; padding: 16px; border-radius: var(--radius-sm); display: none;">
+                            <h4 style="font-size: 15px; margin-bottom: 4px;">Results:</h4>
+                            <div style="font-size: 13px; display: flex; flex-direction: column; gap: 4px;">
+                                <div><strong>BMI:</strong> <span id="bmi-val">22.0</span> (<span id="bmi-class-val">Normal</span>)</div>
+                                <div><strong>Estimated BMR:</strong> <span id="bmr-val">1350</span> kcal/day</div>
+                            </div>
+                            <p id="bmi-advice" style="font-size: 12px; color: var(--text-muted); margin-top: 8px;"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SECTION 3: CLINICAL EDUCATION -->
+            <div id="tab-content-guides" class="wellness-tab-content" style="display: none;">
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <!-- Guide 1 -->
+                    <div class="card" style="border-left: 6px solid var(--primary);">
+                        <h3 style="font-size: 20px; margin-bottom: 8px;">Understanding Insulin Resistance in PCOS</h3>
+                        <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 12px;">Over 70% of women with PCOS suffer from insulin resistance, regardless of body weight. When the cells resist insulin, the pancreas responds by producing more of it. Elevated insulin directly signals the ovaries to secrete excess androgens (male hormones), causing cycle irregularity, hair thinning, and hormonal acne.</p>
+                        <strong style="font-size: 13px; color: var(--primary-dark);"><i class="fa-solid fa-lightbulb"></i> Key Takeaway:</strong>
+                        <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Prioritize complex carbohydrates with low Glycemic Index (oats, quinoa, brown rice) and always pair carbs with healthy fats (avocado) or protein (tofu, egg) to prevent rapid glucose spikes.</p>
+                    </div>
+                    
+                    <!-- Guide 2 -->
+                    <div class="card" style="border-left: 6px solid var(--secondary);">
+                        <h3 style="font-size: 20px; margin-bottom: 8px;">The Science Behind Seed Cycling</h3>
+                        <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 12px;">Seed cycling is a gentle, natural hormone balancing protocol that supports different phases of your menstrual cycle.</p>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 12px;">
+                            <div style="background-color: var(--bg-secondary); padding: 16px; border-radius: var(--radius-sm);">
+                                <h5 style="color: var(--primary-dark); font-size: 14px; margin-bottom: 6px;">Phase 1: Follicular (Days 1 - 14)</h5>
+                                <p style="font-size: 12px; color: var(--text-muted);">Eat **Flax** and **Pumpkin** seeds. Flax seeds contain lignans which bind to excess estrogen. Pumpkin seeds are exceptionally high in Zinc, supporting healthy progesterone creation for the next phase.</p>
+                            </div>
+                            <div style="background-color: var(--bg-secondary); padding: 16px; border-radius: var(--radius-sm);">
+                                <h5 style="color: var(--secondary-dark); font-size: 14px; margin-bottom: 6px;">Phase 2: Luteal (Days 15 - 28)</h5>
+                                <p style="font-size: 12px; color: var(--text-muted);">Eat **Sesame** and **Sunflower** seeds. Sesame seeds contain lignans that keep estrogen in check. Sunflower seeds are packed with Selenium and Vitamin E, which support corpus luteum health and progesterone production.</p>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <!-- Guide 3 -->
+                    <div class="card" style="border-left: 6px solid var(--accent);">
+                        <h3 style="font-size: 20px; margin-bottom: 8px;">Cortisol Management & Workout Synchronization</h3>
+                        <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 12px;">Intense, chronic cardiovascular workouts can trigger sustained high levels of cortisol (stress hormone), which worsens insulin resistance. To balance your hormones, sync workouts with your menstrual cycle phases:</p>
+                        <ul style="font-size: 13px; color: var(--text-muted); padding-left: 20px; display: flex; flex-direction: column; gap: 6px;">
+                            <li><strong>Menstrual phase:</strong> Focus on restorative stretching, gentle yoga, and light walking. Keep heart rate low to promote healing.</li>
+                            <li><strong>Follicular phase:</strong> Transition into progressive strength training and brisk walking. Energy is rising.</li>
+                            <li><strong>Ovulatory phase:</strong> High energy peak. Excellent time for high intensity interval training (HIIT) or heavy strength lifts.</li>
+                            <li><strong>Luteal phase:</strong> Energy begins to taper. Transition back to pilates, steady-state cardio, or slow strength flows.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-logo">
+                <i class="fa-solid fa-leaf"></i> Nutrifit
+            </div>
+            <p style="margin-bottom: 8px;">A holistic, science-backed approach to PCOS and PCOD wellness through cycle synchronization, nourishing recipes, and professional care.</p>
+            <p style="font-size: 12px; opacity: 0.7;">&copy; 2025 Nutrifit. All rights reserved. Built by Ria Chawak.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="static/js/main.js"></script>
+    <script>
+        // Tab switching logic
+        function switchWellnessTab(tabName) {
+            document.querySelectorAll('.wellness-tab-content').forEach(content => {
+                content.style.display = 'none';
+            });
+            
+            document.getElementById('tab-content-' + tabName).style.display = 'block';
+            
+            document.querySelectorAll("[id^='btn-tab-']").forEach(btn => {
+                btn.classList.remove('active-tab-btn');
+                btn.style.backgroundColor = 'transparent';
+            });
+            
+            const activeBtn = document.getElementById('btn-tab-' + tabName);
+            activeBtn.classList.add('active-tab-btn');
+            activeBtn.style.backgroundColor = 'var(--card-bg)';
+        }
+        
+        // Pre-fill calculator parameters from current user profile
+        document.addEventListener("DOMContentLoaded", function() {
+            if (currentUser) {
+                document.getElementById("bmi-weight").value = currentUser.weight || '';
+                document.getElementById("bmi-height").value = currentUser.height || '';
+                document.getElementById("bmi-age").value = currentUser.age || 26;
+            }
+        });
+    </script>
+</body>
+</html>

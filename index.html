@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrifit - PCOS & PCOD Wellness Platform</title>
+    <meta name="description" content="Nutrifit provides personalized cycle-syncing, dietitian-approved meal recommendations, calendar logs, and professional gynecologist consultations tailored for women managing PCOS and PCOD.">
+    <!-- FontAwesome for earthy/medical icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Main stylesheet -->
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="container navbar">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <a href="index.html" class="logo">
+                    <i class="fa-solid fa-leaf"></i> Nutri<span>fit</span>
+                </a>
+            </div>
+            
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="dashboard.html">Recommendations</a></li>
+                    <li><a href="calendar.html">Cycle Calendar</a></li>
+                    <li><a href="experts.html">Connect Expert</a></li>
+                    <li><a href="wellness.html">Wellness Vault</a></li>
+                </ul>
+            </nav>
+            
+            <div class="nav-actions" id="nav-actions-container">
+                <a href="onboarding.html" id="profile-gear-icon" class="btn btn-outline btn-icon" title="Edit Profile (Name, Age, Weight, Height)" style="width: 38px; height: 38px; border-radius: 50%; display: none; align-items: center; justify-content: center; background-color: var(--accent-light); border-color: var(--border); padding: 0; margin-right: 8px;">
+                    <i class="fa-solid fa-user-gear" style="color: var(--primary-dark); font-size: 15px;"></i>
+                </a>
+                <span id="nav-user-greeting" style="font-size: 14px; font-weight: 500; color: var(--text-muted); display: none; margin-right: 12px;">Hello, <span class="user-name-display">Guest</span></span>
+                <a href="login.html" id="btn-login-nav" class="btn btn-outline" style="padding: 8px 16px; font-size: 13px;">Log In</a>
+                <a href="login.html" id="btn-join-nav" class="btn btn-primary" style="padding: 8px 16px; font-size: 13px;">Join Nutrifit</a>
+                <a href="#" id="btn-logout-nav" onclick="logoutUser(event)" class="btn btn-outline" style="padding: 8px 16px; font-size: 13px; display: none;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content wrapper -->
+    <main style="padding: 40px 0;">
+        <div class="container">
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="hero-content">
+                    <span style="color: var(--secondary); font-weight: 600; text-transform: uppercase; letter-spacing: 2px; font-size: 14px; display: inline-block; margin-bottom: 12px;">Welcome to Nutrifit</span>
+                    <h1>Holistic PCOS & PCOD Wellness Designed for You</h1>
+                    <p>Manage insulin resistance, balance your hormones, and sync your life with your menstrual cycle. Get customized dietitian-approved recipe suggestions, track symptoms day-by-day, and connect directly with certified gynecologists, nutritionists, and trainers.</p>
+                    <div class="hero-buttons" id="hero-buttons-container">
+                        <!-- Loaded dynamically by main.js -->
+                        <a href="login.html" class="btn btn-primary">Get Started Free</a>
+                        <a href="login.html" class="btn btn-outline">Sign In</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="static/images/pcos_meal.png" alt="PCOS friendly balanced meal with avocado, egg, and greens" style="max-height: 400px; width: 100%; object-fit: cover;">
+                </div>
+            </section>
+            
+            <!-- Features Info Grid -->
+            <section class="features-section">
+                <div class="section-header">
+                    <h2>Our Holistic Wellness Pillars</h2>
+                    <p>A balanced lifestyle is the key to managing PCOS. Nutrifit targets the root causes through three core pillars of wellness.</p>
+                </div>
+                
+                <div class="grid-3">
+                    <!-- Feature 1 -->
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fa-solid fa-bowl-food"></i>
+                        </div>
+                        <h3>PCOS-Friendly Nutrition</h3>
+                        <p>Calculate your precise caloric limits and macro ratios. Receive daily recommendations for breakfasts, lunches, and dinners tailored to lower insulin levels and curb hormonal cravings.</p>
+                    </div>
+                    
+                    <!-- Feature 2 -->
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fa-solid fa-calendar-days"></i>
+                        </div>
+                        <h3>Cycle & Phase Tracker</h3>
+                        <p>Log period flow levels and physical symptoms (fatigue, acne, bloating). Track your progression through Menstrual, Follicular, Ovulatory, and Luteal phases with specialized seed-cycling guidance.</p>
+                    </div>
+                    
+                    <!-- Feature 3 -->
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fa-solid fa-user-doctor"></i>
+                        </div>
+                        <h3>Direct Professional Access</h3>
+                        <p>Easily browse certified experts. Book online consultations with PCOS-specialist gynecologists, registered dietitians, and yoga trainers to keep your treatment on the right track.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Informational Section -->
+            <section style="margin-bottom: 8px; padding: 40px; background-color: var(--card-bg); border-radius: var(--radius); border: 1px solid var(--border);">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;">
+                    <div>
+                        <span style="color: var(--primary); font-weight: 600; text-transform: uppercase; font-size: 13px; display: block; margin-bottom: 8px;">What is PCOS?</span>
+                        <h2 style="font-size: 28px; margin-bottom: 16px;">Understanding Your Body</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 16px; font-size: 15px;">
+                            Polycystic Ovary Syndrome (PCOS) is a common hormonal disorder affecting reproductive-aged women. It often involves insulin resistance, higher levels of androgen hormones, and irregular menstrual cycles.
+                        </p>
+                        <p style="color: var(--text-muted); margin-bottom: 16px; font-size: 15px;">
+                            Through targeted nutrition (low glycemic load, high iron, plenty of magnesium and zinc), seed cycling (alternating pumpkin/flax and sesame/sunflower seeds), and gentle, phase-synced workouts, you can significantly alleviate symptoms and restore natural biological balance.
+                        </p>
+                        <a href="login.html" class="btn btn-secondary">Join Nutrifit Today</a>
+                    </div>
+                    <div style="background-color: var(--bg-secondary); padding: 32px; border-radius: var(--radius); border-left: 6px solid var(--secondary);">
+                        <h4 style="margin-bottom: 12px; font-size: 18px;"><i class="fa-solid fa-quote-left"></i> Real PCOS Relief starts with Nutrition</h4>
+                        <p style="font-style: italic; color: var(--text-muted); margin-bottom: 16px;">
+                            "Syncing my meals and workouts to my menstrual cycle completely changed how I manage my fatigue and hormone-related acne. Nutrifit helped me figure out exactly what my body needed at each phase of the month."
+                        </p>
+                        <strong style="color: var(--primary-dark); font-size: 14px;">- Jiya, Nutrifit User</strong>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-logo">
+                <i class="fa-solid fa-leaf"></i> Nutrifit
+            </div>
+            <p style="margin-bottom: 8px;">A holistic, science-backed approach to PCOS and PCOD wellness through cycle synchronization, nourishing recipes, and professional care.</p>
+            <p style="font-size: 12px; opacity: 0.7;">&copy; 2025 Nutrifit. All rights reserved. Built by Ria Chawak.</p>
+        </div>
+    </footer>
+
+    <!-- ChartJS and custom JS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="static/js/main.js"></script>
+</body>
+</html>

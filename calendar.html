@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hormonal Cycle Calendar - Nutrifit</title>
+    <meta name="description" content="Click any date to log symptoms or track phase predictions.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="container navbar">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <a href="index.html" class="logo">
+                    <i class="fa-solid fa-leaf"></i> Nutri<span>fit</span>
+                </a>
+            </div>
+            
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="dashboard.html">Recommendations</a></li>
+                    <li><a href="calendar.html" class="active">Cycle Calendar</a></li>
+                    <li><a href="experts.html">Connect Expert</a></li>
+                    <li><a href="wellness.html">Wellness Vault</a></li>
+                </ul>
+            </nav>
+            
+            <div class="nav-actions" id="nav-actions-container">
+                <a href="onboarding.html" id="profile-gear-icon" class="btn btn-outline btn-icon" title="Edit Profile (Name, Age, Weight, Height)" style="width: 38px; height: 38px; border-radius: 50%; display: none; align-items: center; justify-content: center; background-color: var(--accent-light); border-color: var(--border); padding: 0; margin-right: 8px;">
+                    <i class="fa-solid fa-user-gear" style="color: var(--primary-dark); font-size: 15px;"></i>
+                </a>
+                <span id="nav-user-greeting" style="font-size: 14px; font-weight: 500; color: var(--text-muted); display: none; margin-right: 12px;">Hello, <span class="user-name-display">Guest</span></span>
+                <a href="login.html" id="btn-login-nav" class="btn btn-outline" style="padding: 8px 16px; font-size: 13px;">Log In</a>
+                <a href="login.html" id="btn-join-nav" class="btn btn-primary" style="padding: 8px 16px; font-size: 13px;">Join Nutrifit</a>
+                <a href="#" id="btn-logout-nav" onclick="logoutUser(event)" class="btn btn-outline" style="padding: 8px 16px; font-size: 13px; display: none;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content wrapper -->
+    <main style="padding: 40px 0;">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <div>
+                    <h1 style="font-size: 32px; margin-bottom: 4px;">Menstrual Cycle Calendar</h1>
+                    <p style="color: var(--text-muted); font-size: 15px;">Click any date to log flow strength, record symptoms, or add health notes.</p>
+                </div>
+            </div>
+            
+            <div class="calendar-view-container">
+                <!-- Calendar Navigation Header -->
+                <div class="calendar-header">
+                    <button class="btn btn-outline btn-icon" onclick="changeMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+                    <h2 id="calendar-month-year" style="font-size: 24px;">June 2026</h2>
+                    <button class="btn btn-outline btn-icon" onclick="changeMonth(1)"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                
+                <!-- Weekday labels -->
+                <div class="calendar-grid" style="margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+                    <div class="calendar-day-name">Sun</div>
+                    <div class="calendar-day-name">Mon</div>
+                    <div class="calendar-day-name">Tue</div>
+                    <div class="calendar-day-name">Wed</div>
+                    <div class="calendar-day-name">Thu</div>
+                    <div class="calendar-day-name">Fri</div>
+                    <div class="calendar-day-name">Sat</div>
+                </div>
+                
+                <!-- Days Grid -->
+                <div class="calendar-grid" id="calendar-days-grid">
+                    <!-- Cells generated dynamically by JS -->
+                </div>
+                
+                <!-- Cycle Phase Legend -->
+                <div class="calendar-legend">
+                    <div class="legend-item">
+                        <div class="legend-color phase-menstrual" style="border: 1px solid var(--secondary-light);"></div>
+                        <span>Menstrual Phase (Flow)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color phase-follicular" style="border: 1px solid var(--primary-light);"></div>
+                        <span>Follicular Phase</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color phase-ovulatory" style="border: 1px solid var(--accent);"></div>
+                        <span>Ovulatory Phase (Peak Fertility)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color phase-luteal" style="border: 1px solid var(--primary);"></div>
+                        <span>Luteal Phase</span>
+                    </div>
+                    <div class="legend-item">
+                        <i class="fa-solid fa-circle" style="color: var(--secondary); font-size: 10px;"></i>
+                        <span>Log Indicator</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Dialog for Specific Date Symptom Logging -->
+    <div class="modal" id="logModal" style="display: none; align-items: center; justify-content: center;">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeLogModal()">&times;</span>
+            <h3 style="margin-bottom: 8px;"><i class="fa-solid fa-calendar-day" style="color: var(--secondary);"></i> Log Symptoms</h3>
+            <p id="modal-date-label" style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px; font-weight: 500;">Logging for: 2026-06-13</p>
+            
+            <form id="modalLogForm" onsubmit="submitModalLog(event)">
+                <input type="hidden" id="modal-date" name="log_date">
+                
+                <div class="form-group">
+                    <label for="modal-flow">Flow Strength</label>
+                    <select id="modal-flow" name="flow" class="form-control">
+                        <option value="none">None (Dry/No bleeding)</option>
+                        <option value="spotting">Spotting (Very light drops)</option>
+                        <option value="light">Light</option>
+                        <option value="medium">Medium</option>
+                        <option value="heavy">Heavy</option>
+                    </select>
+                </div>
+                
+                <div class="symptom-slider-grid" style="grid-template-columns: 1fr; gap: 12px; margin-bottom: 20px;">
+                    <!-- Cramps -->
+                    <div class="symptom-slider">
+                        <div style="display: flex; justify-content: space-between;">
+                            <label style="font-weight:500; font-size:12px;">Cramps</label>
+                            <span id="modal-val-cramps" style="font-weight:600; color:var(--secondary); font-size:12px;">0</span>
+                        </div>
+                        <input type="range" id="modal-cramps" name="cramps" min="0" max="5" value="0" class="form-control" style="padding:0; height:6px;" oninput="updateModalSliderVal('cramps', this.value)">
+                    </div>
+                    <!-- Fatigue -->
+                    <div class="symptom-slider">
+                        <div style="display: flex; justify-content: space-between;">
+                            <label style="font-weight:500; font-size:12px;">Fatigue</label>
+                            <span id="modal-val-fatigue" style="font-weight:600; color:var(--secondary); font-size:12px;">0</span>
+                        </div>
+                        <input type="range" id="modal-fatigue" name="fatigue" min="0" max="5" value="0" class="form-control" style="padding:0; height:6px;" oninput="updateModalSliderVal('fatigue', this.value)">
+                    </div>
+                    <!-- Bloating -->
+                    <div class="symptom-slider">
+                        <div style="display: flex; justify-content: space-between;">
+                            <label style="font-weight:500; font-size:12px;">Bloating</label>
+                            <span id="modal-val-bloating" style="font-weight:600; color:var(--secondary); font-size:12px;">0</span>
+                        </div>
+                        <input type="range" id="modal-bloating" name="bloating" min="0" max="5" value="0" class="form-control" style="padding:0; height:6px;" oninput="updateModalSliderVal('bloating', this.value)">
+                    </div>
+                    <!-- Acne -->
+                    <div class="symptom-slider">
+                        <div style="display: flex; justify-content: space-between;">
+                            <label style="font-weight:500; font-size:12px;">Acne Breakout</label>
+                            <span id="modal-val-acne" style="font-weight:600; color:var(--secondary); font-size:12px;">0</span>
+                        </div>
+                        <input type="range" id="modal-acne" name="acne" min="0" max="5" value="0" class="form-control" style="padding:0; height:6px;" oninput="updateModalSliderVal('acne', this.value)">
+                    </div>
+                    <!-- Mood -->
+                    <div class="symptom-slider">
+                        <div style="display: flex; justify-content: space-between;">
+                            <label style="font-weight:500; font-size:12px;">Mood Swings</label>
+                            <span id="modal-val-mood" style="font-weight:600; color:var(--secondary); font-size:12px;">0</span>
+                        </div>
+                        <input type="range" id="modal-mood" name="mood" min="0" max="5" value="0" class="form-control" style="padding:0; height:6px;" oninput="updateModalSliderVal('mood', this.value)">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="modal-notes">Notes</label>
+                    <textarea id="modal-notes" name="notes" class="form-control" style="height: 60px; resize:none;" placeholder="Notes..."></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;"><i class="fa-solid fa-save"></i> Save Log</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-logo">
+                <i class="fa-solid fa-leaf"></i> Nutrifit
+            </div>
+            <p style="margin-bottom: 8px;">A holistic, science-backed approach to PCOS and PCOD wellness through cycle synchronization, nourishing recipes, and professional care.</p>
+            <p style="font-size: 12px; opacity: 0.7;">&copy; 2025 Nutrifit. All rights reserved. Built by Ria Chawak.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="static/js/main.js"></script>
+    <script>
+        let currentDate = new Date();
+
+        document.addEventListener("DOMContentLoaded", function() {
+            renderCalendar();
+        });
+
+        function renderCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            document.getElementById("calendar-month-year").innerText = `${monthNames[month]} ${year}`;
+            
+            const firstDayIndex = new Date(year, month, 1).getDay();
+            const lastDay = new Date(year, month + 1, 0).getDate();
+            const prevLastDay = new Date(year, month, 0).getDate();
+            
+            const grid = document.getElementById("calendar-days-grid");
+            grid.innerHTML = "";
+            
+            // Render previous month cells (inactive)
+            for (let i = firstDayIndex; i > 0; i--) {
+                const cell = document.createElement("div");
+                cell.className = "calendar-cell inactive";
+                cell.innerHTML = `<span class="day-num">${prevLastDay - i + 1}</span>`;
+                grid.appendChild(cell);
+            }
+            
+            // Render active month cells
+            for (let day = 1; day <= lastDay; day++) {
+                const cell = document.createElement("div");
+                cell.className = "calendar-cell";
+                
+                const monthStr = String(month + 1).padStart(2, '0');
+                const dayStr = String(day).padStart(2, '0');
+                const dateKey = `${year}-${monthStr}-${dayStr}`;
+                
+                const cellDate = new Date(year, month, day);
+                const today = new Date();
+                today.setHours(0,0,0,0);
+                cellDate.setHours(0,0,0,0);
+                
+                // Highlight today
+                if (today.getFullYear() === year && today.getMonth() === month && today.getDate() === day) {
+                    cell.classList.add("today");
+                }
+                
+                // Retrieve log
+                const log = cycleLogs[dateKey];
+                
+                // Set phase color
+                const phase = getPhaseForDate(cellDate);
+                if (log && log.flow && log.flow !== 'none') {
+                    cell.classList.add("phase-menstrual");
+                } else if (phase) {
+                    cell.classList.add(`phase-${phase.toLowerCase()}`);
+                }
+                
+                if (log) {
+                    cell.classList.add("has-log");
+                    // Add dot
+                    const dot = document.createElement("span");
+                    dot.className = "log-indicator-dot";
+                    cell.appendChild(dot);
+                }
+                
+                const numSpan = document.createElement("span");
+                numSpan.className = "day-num";
+                numSpan.innerText = day;
+                cell.appendChild(numSpan);
+                
+                cell.addEventListener("click", () => openLogModal(dateKey));
+                grid.appendChild(cell);
+            }
+            
+            // Render next month cells (inactive)
+            const totalCells = firstDayIndex + lastDay;
+            const nextMonthCells = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
+            for (let i = 1; i <= nextMonthCells; i++) {
+                const cell = document.createElement("div");
+                cell.className = "calendar-cell inactive";
+                cell.innerHTML = `<span class="day-num">${i}</span>`;
+                grid.appendChild(cell);
+            }
+        }
+
+        function changeMonth(direction) {
+            currentDate.setMonth(currentDate.getMonth() + direction);
+            renderCalendar();
+        }
+
+        function openLogModal(dateStr) {
+            document.getElementById("modal-date").value = dateStr;
+            document.getElementById("modal-date-label").innerText = `Logging for: ${dateStr}`;
+            
+            const log = cycleLogs[dateStr] || {
+                flow: 'none', symptom_cramps: 0, symptom_fatigue: 0, symptom_bloating: 0, symptom_acne: 0, symptom_mood: 0, notes: ''
+            };
+            
+            document.getElementById("modal-flow").value = log.flow;
+            setModalSlider('cramps', log.symptom_cramps || 0);
+            setModalSlider('fatigue', log.symptom_fatigue || 0);
+            setModalSlider('bloating', log.symptom_bloating || 0);
+            setModalSlider('acne', log.symptom_acne || 0);
+            setModalSlider('mood', log.symptom_mood || 0);
+            document.getElementById("modal-notes").value = log.notes || '';
+            
+            document.getElementById("logModal").style.display = "flex";
+        }
+
+        function setModalSlider(symptom, val) {
+            document.getElementById("modal-" + symptom).value = val;
+            document.getElementById("modal-val-" + symptom).innerText = val;
+        }
+
+        function updateModalSliderVal(symptom, val) {
+            document.getElementById("modal-val-" + symptom).innerText = val;
+        }
+
+        function closeLogModal() {
+            document.getElementById("logModal").style.display = "none";
+        }
+
+        function submitModalLog(event) {
+            event.preventDefault();
+            const dateStr = document.getElementById("modal-date").value;
+            const flow = document.getElementById("modal-flow").value;
+            const cramps = parseInt(document.getElementById("modal-cramps").value);
+            const fatigue = parseInt(document.getElementById("modal-fatigue").value);
+            const bloating = parseInt(document.getElementById("modal-bloating").value);
+            const acne = parseInt(document.getElementById("modal-acne").value);
+            const mood = parseInt(document.getElementById("modal-mood").value);
+            const notes = document.getElementById("modal-notes").value;
+            
+            cycleLogs[dateStr] = {
+                flow: flow,
+                symptom_cramps: cramps,
+                symptom_fatigue: fatigue,
+                symptom_bloating: bloating,
+                symptom_acne: acne,
+                symptom_mood: mood,
+                notes: notes
+            };
+            
+            setLocalStorageData('nutrifit_cycle_logs', cycleLogs);
+            
+            if (flow !== 'none' && flow !== 'spotting') {
+                currentUser.last_period_date = dateStr;
+                setLocalStorageData('nutrifit_user', currentUser);
+            }
+            
+            closeLogModal();
+            renderCalendar();
+            showFlashNotification(`Log saved for ${dateStr}!`, "success");
+        }
+    </script>
+</body>
+</html>

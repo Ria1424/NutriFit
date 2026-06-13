@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customize Your Wellness Profile - Nutrifit</title>
+    <meta name="description" content="Configure your profile for customized calorie limits and phase targeting.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="container navbar">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <a href="index.html" class="logo">
+                    <i class="fa-solid fa-leaf"></i> Nutri<span>fit</span>
+                </a>
+            </div>
+            
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="dashboard.html">Recommendations</a></li>
+                    <li><a href="calendar.html">Cycle Calendar</a></li>
+                    <li><a href="experts.html">Connect Expert</a></li>
+                    <li><a href="wellness.html">Wellness Vault</a></li>
+                </ul>
+            </nav>
+            
+            <div class="nav-actions" id="nav-actions-container">
+                <a href="onboarding.html" id="profile-gear-icon" class="btn btn-outline btn-icon" title="Edit Profile (Name, Age, Weight, Height)" style="width: 38px; height: 38px; border-radius: 50%; display: none; align-items: center; justify-content: center; background-color: var(--accent-light); border-color: var(--border); padding: 0; margin-right: 8px;">
+                    <i class="fa-solid fa-user-gear" style="color: var(--primary-dark); font-size: 15px;"></i>
+                </a>
+                <span id="nav-user-greeting" style="font-size: 14px; font-weight: 500; color: var(--text-muted); display: none; margin-right: 12px;">Hello, <span class="user-name-display">Guest</span></span>
+                <a href="login.html" id="btn-login-nav" class="btn btn-outline" style="padding: 8px 16px; font-size: 13px;">Log In</a>
+                <a href="login.html" id="btn-join-nav" class="btn btn-primary" style="padding: 8px 16px; font-size: 13px;">Join Nutrifit</a>
+                <a href="#" id="btn-logout-nav" onclick="logoutUser(event)" class="btn btn-outline" style="padding: 8px 16px; font-size: 13px; display: none;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content wrapper -->
+    <main style="padding: 40px 0;">
+        <div class="container">
+            <div class="onboarding-container">
+                <div style="text-align: center; margin-bottom: 32px;">
+                    <h2 style="font-size: 28px;">Let's customize your profile</h2>
+                    <p style="color: var(--text-muted); font-size: 14px;">We use these metrics to calculate your BMI, daily caloric targets, and sync recommendations to your phase.</p>
+                </div>
+                
+                <!-- Progress Indicator -->
+                <div class="progress-steps">
+                    <div class="step-indicator active" id="indicator-1">1</div>
+                    <div class="step-indicator" id="indicator-2">2</div>
+                    <div class="step-indicator" id="indicator-3">3</div>
+                    <div class="step-indicator" id="indicator-4">4</div>
+                </div>
+                
+                <form id="onboardingForm">
+                    
+                    <!-- Step 1: Profile Metrics -->
+                    <div class="onboarding-step active" id="step-1">
+                        <h3 style="margin-bottom: 16px;"><i class="fa-solid fa-weight-scale" style="color: var(--primary);"></i> Step 1: Health Metrics</h3>
+                        
+                        <div class="form-group">
+                            <label for="onboard-name">Your Full Name</label>
+                            <input type="text" id="onboard-name" name="name" class="form-control" placeholder="Jiya" required>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="height">Height (in cm)</label>
+                                <input type="number" step="0.1" id="height" name="height" class="form-control" placeholder="162" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="weight">Weight (in kg)</label>
+                                <input type="number" step="0.1" id="weight" name="weight" class="form-control" placeholder="62" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="age">Age (in years)</label>
+                            <input type="number" id="age" name="age" class="form-control" placeholder="26" required>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: flex-end; margin-top: 32px;">
+                            <button type="button" class="btn btn-primary next-step-btn" data-next="2">Next <i class="fa-solid fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2: Diet Preferences -->
+                    <div class="onboarding-step" id="step-2">
+                        <h3 style="margin-bottom: 8px;"><i class="fa-solid fa-carrot" style="color: var(--primary);"></i> Step 2: Dietary Preferences</h3>
+                        <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">We alter recommendation algorithms and recipes based on your choice.</p>
+                        
+                        <div class="form-group">
+                            <label>Choose Your Diet Style</label>
+                            <div class="selection-grid">
+                                <label class="select-card selected" id="card-diet-veg" onclick="selectDiet('veg')">
+                                    <input type="radio" name="diet_preference" value="veg" checked required>
+                                    <i class="fa-solid fa-leaf"></i>
+                                    <strong>Vegetarian</strong>
+                                </label>
+                                <label class="select-card" id="card-diet-vegan" onclick="selectDiet('vegan')">
+                                    <input type="radio" name="diet_preference" value="vegan">
+                                    <i class="fa-solid fa-seedling"></i>
+                                    <strong>Vegan</strong>
+                                </label>
+                                <label class="select-card" id="card-diet-pescatarian" onclick="selectDiet('pescatarian')">
+                                    <input type="radio" name="diet_preference" value="pescatarian">
+                                    <i class="fa-solid fa-fish"></i>
+                                    <strong>Pescatarian</strong>
+                                </label>
+                                <label class="select-card" id="card-diet-non-veg" onclick="selectDiet('non-veg')">
+                                    <input type="radio" name="diet_preference" value="non-veg">
+                                    <i class="fa-solid fa-drumstick-bite"></i>
+                                    <strong>Non-Vegetarian</strong>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; margin-top: 32px;">
+                            <button type="button" class="btn btn-outline prev-step-btn" data-prev="1"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                            <button type="button" class="btn btn-primary next-step-btn" data-next="3">Next <i class="fa-solid fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3: Lifestyle & Exercises -->
+                    <div class="onboarding-step" id="step-3">
+                        <h3 style="margin-bottom: 16px;"><i class="fa-solid fa-person-running" style="color: var(--primary);"></i> Step 3: Lifestyle & Fitness</h3>
+                        
+                        <div class="form-group">
+                            <label for="lifestyle">Lifestyle Activity Level</label>
+                            <select id="lifestyle" name="lifestyle" class="form-control" required>
+                                <option value="sedentary">Sedentary (Desk job, minimal daily movement)</option>
+                                <option value="moderate" selected>Moderately Active (Moderate exercise or walking 3-4 days/week)</option>
+                                <option value="active">Very Active (Heavy training or active job 5-7 days/week)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="exercise_type">Preferred Exercise</label>
+                                <select id="exercise_type" name="exercise_type" class="form-control" required>
+                                    <option value="yoga" selected>Yoga & Stretching</option>
+                                    <option value="strength">Strength Training</option>
+                                    <option value="cardio">Cardio & HIIT</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="exercise_time">Daily Workout Time (mins)</label>
+                                <input type="number" id="exercise_time" name="exercise_time" class="form-control" value="30" min="10" max="180" required>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; margin-top: 32px;">
+                            <button type="button" class="btn btn-outline prev-step-btn" data-prev="2"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                            <button type="button" class="btn btn-primary next-step-btn" data-next="4">Next <i class="fa-solid fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 4: Menstrual Details -->
+                    <div class="onboarding-step" id="step-4">
+                        <h3 style="margin-bottom: 16px;"><i class="fa-solid fa-calendar" style="color: var(--primary);"></i> Step 4: Cycle Details</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="cycle_days">Average Cycle Length (days)</label>
+                                <input type="number" id="cycle_days" name="cycle_days" class="form-control" value="28" min="20" max="60" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="period_days">Typical Period Duration (days)</label>
+                                <input type="number" id="period_days" name="period_days" class="form-control" value="5" min="2" max="10" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="last_period_date">Start Date of Your Last Period</label>
+                            <input type="date" id="last_period_date" name="last_period_date" class="form-control" required>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; margin-top: 32px;">
+                            <button type="button" class="btn btn-outline prev-step-btn" data-prev="3"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                            <button type="submit" class="btn btn-secondary">Complete Setup <i class="fa-solid fa-circle-check"></i></button>
+                        </div>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-logo">
+                <i class="fa-solid fa-leaf"></i> Nutrifit
+            </div>
+            <p style="margin-bottom: 8px;">A holistic, science-backed approach to PCOS and PCOD wellness through cycle synchronization, nourishing recipes, and professional care.</p>
+            <p style="font-size: 12px; opacity: 0.7;">&copy; 2025 Nutrifit. All rights reserved. Built by Ria Chawak.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="static/js/main.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const nextBtns = document.querySelectorAll(".next-step-btn");
+            const prevBtns = document.querySelectorAll(".prev-step-btn");
+            
+            const lastPeriodInput = document.getElementById("last_period_date");
+            if (!lastPeriodInput.value) {
+                // Default to 12 days ago to showcase standard follicular/luteal states on first run
+                const d = new Date();
+                d.setDate(d.getDate() - 12);
+                lastPeriodInput.value = d.toISOString().split('T')[0];
+            }
+
+            nextBtns.forEach(btn => {
+                btn.addEventListener("click", function() {
+                    const nextStep = this.getAttribute("data-next");
+                    const currentStep = nextStep - 1;
+                    
+                    const inputs = document.getElementById("step-" + currentStep).querySelectorAll("input, select");
+                    let valid = true;
+                    inputs.forEach(input => {
+                        if (!input.checkValidity()) {
+                            input.reportValidity();
+                            valid = false;
+                        }
+                    });
+                    
+                    if (valid) {
+                        document.getElementById("step-" + currentStep).classList.remove("active");
+                        document.getElementById("step-" + nextStep).classList.add("active");
+                        
+                        document.getElementById("indicator-" + currentStep).classList.add("completed");
+                        document.getElementById("indicator-" + nextStep).classList.add("active");
+                    }
+                });
+            });
+
+            prevBtns.forEach(btn => {
+                btn.addEventListener("click", function() {
+                    const prevStep = this.getAttribute("data-prev");
+                    const currentStep = parseInt(prevStep) + 1;
+                    
+                    document.getElementById("step-" + currentStep).classList.remove("active");
+                    document.getElementById("step-" + prevStep).classList.add("active");
+                    
+                    document.getElementById("indicator-" + currentStep).classList.remove("active");
+                    document.getElementById("indicator-" + prevStep).classList.remove("completed");
+                    document.getElementById("indicator-" + prevStep).classList.add("active");
+                });
+            });
+            
+            // Set correct selected diet card class on load
+            const dietVal = currentUser.diet_preference || 'veg';
+            document.querySelectorAll('.select-card').forEach(card => card.classList.remove('selected'));
+            const selectedCard = document.getElementById(`card-diet-${dietVal}`);
+            if (selectedCard) {
+                selectedCard.classList.add('selected');
+                selectedCard.querySelector('input').checked = true;
+            }
+        });
+
+        function selectDiet(diet) {
+            document.querySelectorAll('.select-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            const activeCard = document.getElementById(`card-diet-${diet}`);
+            activeCard.classList.add('selected');
+            activeCard.querySelector('input').checked = true;
+        }
+    </script>
+</body>
+</html>
